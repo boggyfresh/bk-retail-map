@@ -1,80 +1,40 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
-  <title>North Brooklyn Retail Map</title>
-  <script src='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js'></script>
-  <link href='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css' rel='stylesheet' />
-  <style>
-    #map{
-      width: 100%;
-      height: 600px;
-    }
-    #menu {
-    background: #fff;
-    position: absolute;
-    z-index: 1;
-    top: 10px;
-    right: 10px;
-    border-radius: 3px;
-    width: 120px;
-    border: 1px solid rgba(0,0,0,0.4);
-    font-family: 'Open Sans', sans-serif;
-}
-
-#menu a {
-    font-size: 13px;
-    color: #404040;
-    display: block;
-    margin: 0;
-    padding: 0;
-    padding: 10px;
-    text-decoration: none;
-    border-bottom: 1px solid rgba(0,0,0,0.25);
-    text-align: center;
-}
-
-#menu a:last-child {
-    border: none;
-}
-
-#menu a:hover {
-    background-color: #f8f8f8;
-    color: #404040;
-}
-
-#menu a.active {
-    background-color: #3887be;
-    color: #ffffff;
-}
-
-#menu a.active:hover {
-    background: #3074a4;
-}
-  </style>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css' rel='stylesheet' />
+	<style>
+     		body { margin:0; padding:0; }
+      		#map { position:absolute; top:0; bottom:0; width:100%; }
+   	 </style>
 </head>
 
+
 <body>
-  <div id='map'></div>
-  <script>
-    mapboxgl.accessToken='pk.eyJ1IjoiYm9nZGFudHJhY2giLCJhIjoiY2l3emp2djJ2MDF5YjJ6bzBpdmEwNXU3MiJ9.UsXuPGrsjOYIksQmjHjlSQ';
-    
-    var map = new mapboxgl.Map ({
-      container: 'map',
-      center: [-73.9598195,40.7181985],
-      style:'mapbox://styles/bogdantrach/cj2nzqrnn00282rmrfsrxof7g',
-      zoom: 15,
-      pitch: 45,
-      bearing: 18.5
-    });
-    
-    var nav = new mapboxgl.NavigationControl();
-    
+
+<div id='map'></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiYm9nZGFudHJhY2giLCJhIjoiY2l3emp2djJ2MDF5YjJ6bzBpdmEwNXU3MiJ9.UsXuPGrsjOYIksQmjHjlSQ';
+
+var map = new mapboxgl.Map({
+	container: 'map',
+	style: 'mapbox://styles/bogdantrach/cj2nzqrnn00282rmrfsrxof7g',
+	center: [-73.9598195, 40.7181985],
+	zoom: 14,
+	pitch: 45,
+	bearing: 18.5
+});
+
+
     map.addControl (nav,'top-right');
 
 map.on('load',function(){
       
-      map.addSource('retail-rents',{
+      map.addSource('retail',{
         'type':'vector',
         'url':'mapbox://mapbox.cj2nz3iyc01y334mhm5851rnf'
       });
@@ -83,30 +43,40 @@ map.on('load',function(){
         'id':'retail-rents',
         'type':'fill-extrusion',
         'source':'retail-rents',
-        'source-layer':'retail-rents',
-        'paint': {
-            'fill-color': {
-                property: 'population',
-                stops: [
-                    [0, '#F2F12D'],
-                    [100, '#EED322'],
-                    [1000, '#E6B71E'],
-                    [5000, '#DA9C20'],
-                    [10000, '#CA8323'],
-                    [50000, '#B86B25'],
-                    [100000, '#A25626'],
-                    [500000, '#8B4225'],
-                    [1000000, '#723122']
-                ]
-            }
-        },
+        'source-layer':'retail',
         'fill-extrusion-height':{
             'property':'retail-rent',
-            'type':'identity'
-          }
+            'type': 'identity'
+          },
+	'fill-extrusion-base': {
+            'property': 'base',
+            'type': 'identity'
+	  },
+	'paint': {
+            'fill-extrusion-color': {
+                'property': 'retail-rent',
+		'type':'interval',
+                'stops': [
+                    [0, '#F2F12D'],
+                    [100, '#EED322'],
+                    [150, '#E6B71E'],
+                    [175, '#DA9C20'],
+                    [200, '#CA8323'],
+                    [225, '#B86B25'],
+                    [250, '#A25626'],
+                    [275, '#8B4225'],
+                    [300, '#723122']
+                ]
+            }
+        }
       });
 });
-  </script>
+
+
+</script>
+
+
+
 </body>
 
 </html>
