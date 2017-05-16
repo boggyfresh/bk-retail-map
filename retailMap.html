@@ -58,6 +58,7 @@
   <div id='map'></div>
   <script>
     mapboxgl.accessToken='pk.eyJ1IjoiYm9nZGFudHJhY2giLCJhIjoiY2l3emp2djJ2MDF5YjJ6bzBpdmEwNXU3MiJ9.UsXuPGrsjOYIksQmjHjlSQ';
+    
     var map = new mapboxgl.Map ({
       container: 'map',
       center: [-73.9598195,40.7181985],
@@ -66,19 +67,25 @@
       pitch: 45,
       bearing: 18.5
     });
+    
     var nav = new mapboxgl.NavigationControl();
+    
     map.addControl (nav,'top-right');
+    
     map.on('load',function(){
+      
       map.addSource('retail-rents',{
-        type:'vector',
-        source:'mapbox://mapbox.cj2nz3iyc01y334mhm5851rnf'
+        'type':'vector',
+        'url':'mapbox://mapbox.cj2nz3iyc01y334mhm5851rnf'
       });
+      
       map.addLayer('retail-rents',{
         'id':'retail-rents',
         'type':'fill-extrusion',
-        'source':'mapbox://bogdantrach.cj2nz3iyc01y334mhm5851rnf-4z5na',
-        'layout': {'
-          visibility':'visible'
+        'source':'retail-rents',
+        'source-layer':'retail-rents',
+        'layout': {
+          'visibility':'visible'
         },
         'paint':{
           'fill-extrusion-color'{
