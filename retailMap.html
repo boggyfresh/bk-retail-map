@@ -1,81 +1,108 @@
 <!DOCTYPE html>
-
 <html>
 
 <head>
-	<script src='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css' rel='stylesheet' />
-	<style>
-     		body { margin:0; padding:0; }
-      		#map { position:absolute; top:0; bottom:0; width:100%; }
-   	 </style>
+  <title>North Brooklyn Retail Map</title>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+
+    body {
+  margin: 0;
+  padding: 0;
+}
+
+h2,
+h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
+
+/**
+* Create a position for the map
+* on the page */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/**
+* Set rules for how the map overlays
+* (info box and legend) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-left: 10px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 140px;
+  margin-top: 10px;
+  width: 300px;
+}
+
+#legend {
+  padding: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 18px;
+  height: 150px;
+  margin-bottom: 40px;
+  width: 100px;
+}
+
+.legend-key {
+  display: inline-block;
+  border-radius: 20%;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+  </style>
 </head>
 
-
 <body>
+  <div id='map'></div>
+  <div class='map-overlay' id='features'><h2>Brooklyn Retail Corridors</h2><div id='pd'><p>For additional information, please contact: </br></br><b>Brendan Maddigan</b></br>Executive Managing Director</br>Cushman & Wakefield</br>718 307 6507</p></div></div>
+  <div class='map-overlay' id='legend'></div>
 
-<div id='map'></div>
+  <script>
 
-<script>
+    mapboxgl.accessToken='pk.eyJ1IjoiYm9nZGFudHJhY2giLCJhIjoiY2oya3NvamJxMDAxbDMzdGp5OHVzajkwaCJ9.9mIhgH1kRcWsitHq2akdQg';
+    var map = new mapboxgl.Map ({
+      container: 'map',
+      center: [-73.9598195,40.7181985],
+      style: 'mapbox://styles/bogdantrach/cj2tqb13f00162spty9kzndeq',
+      zoom: 14,
+      pitch: 35
+    });
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiYm9nZGFudHJhY2giLCJhIjoiY2l3emp2djJ2MDF5YjJ6bzBpdmEwNXU3MiJ9.UsXuPGrsjOYIksQmjHjlSQ';
+    map.addControl(new mapboxgl.FullscreenControl());
 
-var map = new mapboxgl.Map({
-	container: 'map',
-	style: 'mapbox://styles/bogdantrach/cj2nzqrnn00282rmrfsrxof7g',
-	center: [-73.9598195, 40.7181985],
-	zoom: 14,
-	pitch: 45,
-	bearing: 18.5
-});
-
-
-    map.addControl (nav,'top-right');
-
-map.on('load',function(){
-      
-      map.addSource('retail',{
-        'type':'vector',
-        'url':'mapbox://mapbox.cj2nz3iyc01y334mhm5851rnf'
-      });
-     
-      map.addLayer('retail-rents',{
-        'id':'retail-rents',
-        'type':'fill-extrusion',
-        'source':'retail-rents',
-        'source-layer':'retail',
-        'fill-extrusion-height':{
-            'property':'retail-rent',
-            'type': 'identity'
-          },
-	'fill-extrusion-base': {
-            'property': 'base',
-            'type': 'identity'
-	  },
-	'paint': {
-            'fill-extrusion-color': {
-                'property': 'retail-rent',
-		'type':'interval',
-                'stops': [
-                    [0, '#F2F12D'],
-                    [100, '#EED322'],
-                    [150, '#E6B71E'],
-                    [175, '#DA9C20'],
-                    [200, '#CA8323'],
-                    [225, '#B86B25'],
-                    [250, '#A25626'],
-                    [275, '#8B4225'],
-                    [300, '#723122']
-                ]
-            }
-        }
-      });
-});
+    map.addControl(new mapboxgl.NavigationControl());
 
 
-</script>
 
-
+  </script>
 
 </body>
 
